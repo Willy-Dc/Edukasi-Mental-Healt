@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenang — Kamu Tidak Sendiri</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body class="light-mode">
+  
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+  
+  <!-- Floating Particles Background -->
+  <div class="particles-bg" id="particles-bg" aria-hidden="true"></div>
+  
+  <!-- ============================================================
+       SOUND WIDGET — redesigned with sound library grid
+       ============================================================ -->
+  <div class="sound-widget" id="sound-widget">
+
+    <!-- Toggle button: shows current sound emoji + ON/OFF -->
+    <button class="sound-btn" id="sound-toggle" title="Pilih & Putar Suara Ambient">
+      <span class="sound-toggle-emoji">🔇</span>
+      <span class="sound-toggle-label">OFF</span>
+    </button>
+
+    <!-- Expanded panel -->
+    <div class="sound-panel" id="sound-panel">
+
+      <div class="sound-panel-header">
+        <span class="sound-panel-title">🎧 Ambient Sounds</span>
+        <button class="sound-panel-close" id="sound-panel-close" title="Tutup">✕</button>
+      </div>
+
+      <!-- Volume row -->
+      <div class="sound-vol-row">
+        <span class="sound-vol-icon">🔈</span>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.4" />
+        <span class="sound-vol-icon">🔊</span>
+      </div>
+
+      <!-- Sound grid: 10 options -->
+      <div class="sound-grid" id="sound-grid">
+        <!-- populated by JS -->
+      </div>
+
+      <!-- Play / Stop -->
+      <button class="sound-play-btn" id="panel-play-btn">▶ Putar</button>
+
+    </div>
+  </div>
+
+  <button class="dark-toggle" id="dark-toggle" title="Calm Mode">🌙</button>
+  
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo"><a href="index.html">🌿 Tenang</a></div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <button class="nav-btn active" data-page="home">Beranda</button>
+      <button class="nav-btn" data-page="emergency">Bantuan</button>
+      <button class="nav-btn" data-page="history">Riwayat</button>
+      <button class="nav-btn" data-page="about">Tentang Kami</button>
+    </div>
+  </nav>
+  
+  <section class="page active" id="page-home">
+  
+    <div class="hero">
+      <div class="hero-blob blob-1"></div>
+      <div class="hero-blob blob-2"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Hai, selamat datang 👋</p>
+        <h1 class="hero-title">Kamu<br/><em>Tidak Sendiri</em></h1>
+        <p class="hero-desc">
+          Di sini kamu bisa istirahat sebentar dari semua yang terasa berat.<br/>
+          Tidak ada penilaian. Hanya ruang yang aman untukmu.
+        </p>
+        <button class="btn-primary pulse-anim" id="btn-main-help">
+          Saya Butuh Bantuan
+        </button>
+        <button class="btn-ghost" id="btn-check-mood">Cek Mood Dulu</button>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="stat-num">10K+</span><span class="stat-label">Pengguna</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="stat-num">50K+</span><span class="stat-label">Sesi Tenang</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="stat-num">24/7</span><span class="stat-label">Selalu Ada</span></div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mood-section" id="mood-section">
+      <div class="mood-card">
+        <h2 class="section-title">Bagaimana perasaanmu sekarang?</h2>
+        <p class="section-sub">Tidak ada jawaban yang salah. Jujur saja.</p>
+        <div class="mood-options">
+          <button class="mood-btn" data-mood="baik">
+            <span class="mood-emoji">😊</span>
+            <span>Baik</span>
+          </button>
+          <button class="mood-btn" data-mood="biasa">
+            <span class="mood-emoji">😐</span>
+            <span>Biasa Aja</span>
+          </button>
+          <button class="mood-btn" data-mood="stres">
+            <span class="mood-emoji">😔</span>
+            <span>Stres / Sedih</span>
+          </button>
+        </div>
+        <div class="mood-response" id="mood-response"></div>
+      </div>
+    </div>
+  
+    <div class="affirmation-section">
+      <div class="affirmation-card">
+        <p class="affirmation-text" id="affirmation-text">
+          "Kamu sudah melakukan yang terbaik hari ini, dan itu cukup."
+        </p>
+        <button class="btn-outline" id="btn-affirmation">✨ Kata Penyemangat Baru</button>
+      </div>
+    </div>
+  
+    <div class="features-section">
+      <h2 class="features-title">Apa yang Bisa Kamu Lakukan di Sini?</h2>
+      <p class="features-sub">Semua dirancang untuk membantumu merasa lebih baik, selangkah demi selangkah.</p>
+      <div class="features-grid">
+        <div class="feature-card" data-page="emergency" data-tab="breathing">
+          <div class="feature-icon">🫁</div>
+          <h3>Latihan Napas</h3>
+          <p>Panduan pernapasan interaktif untuk menenangkan sistem sarafmu dalam hitungan menit.</p>
+          <span class="feature-link">Coba Sekarang →</span>
+        </div>
+        <div class="feature-card" data-page="emergency" data-tab="grounding">
+          <div class="feature-icon">🌱</div>
+          <h3>Teknik Grounding</h3>
+          <p>Kembali ke momen saat ini dengan teknik 5-4-3-2-1 yang terbukti secara ilmiah.</p>
+          <span class="feature-link">Coba Sekarang →</span>
+        </div>
+        <div class="feature-card" data-page="emergency" data-tab="contacts">
+          <div class="feature-icon">💬</div>
+          <h3>Ruang Curhat</h3>
+          <p>Tulis apa yang kamu rasakan. Tidak ada yang membaca — hanya kamu dan pikiranmu.</p>
+          <span class="feature-link">Mulai Curhat →</span>
+        </div>
+        <div class="feature-card" data-page="emergency" data-tab="safemode">
+          <div class="feature-icon">🛡</div>
+          <h3>Safe Mode</h3>
+          <p>30 detik hanya untuk bernapas. Matikan semua kebisingan, fokus pada dirimu.</p>
+          <span class="feature-link">Aktifkan →</span>
+        </div>
+      </div>
+    </div>
+  
+  </section>
+  
+  <section class="page" id="page-emergency">
+  
+    <div class="emergency-header">
+      <h2>Ruang Dukungan</h2>
+      <p>Pilih yang paling kamu butuhkan sekarang</p>
+    </div>
+  
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="breathing">🫁 Napas</button>
+      <button class="tab-btn" data-tab="grounding">🌱 Grounding</button>
+      <button class="tab-btn" data-tab="contacts">📞 Hubungi</button>
+      <button class="tab-btn" data-tab="safemode">🛡 Safe Mode</button>
+    </div>
+  
+    <div class="tab-content active" id="tab-breathing">
+      <div class="breathing-container">
+        <h3>Latihan Pernapasan</h3>
+        <p class="tab-desc">Ikuti animasi ini. Biarkan napasmu pelan-pelan melambat.</p>
+        <div class="breath-modes">
+          <button class="breath-mode-btn" data-mode="cepat">⚡ Cepat</button>
+          <button class="breath-mode-btn active" data-mode="normal">🌿 Normal</button>
+          <button class="breath-mode-btn" data-mode="lambat">🌙 Lambat</button>
+        </div>
+        <div class="breath-wrapper">
+          <div class="breath-circle" id="breath-circle">
+            <div class="breath-inner">
+              <span class="breath-phase" id="breath-phase">Siap?</span>
+              <span class="breath-timer" id="breath-timer"></span>
+            </div>
+          </div>
+          <div class="breath-ring"></div>
+        </div>
+        <div class="breath-progress-wrap">
+          <div class="breath-progress-bar" id="breath-progress"></div>
+        </div>
+        <p class="breath-cycle-info" id="breath-cycle-info">Siklus: 0 / 5</p>
+        <div class="breath-controls">
+          <button class="btn-primary" id="breath-start">Mulai</button>
+          <button class="btn-ghost" id="breath-stop" style="display:none">Hentikan</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="tab-content" id="tab-grounding">
+      <div class="grounding-container">
+        <h3>Teknik 5-4-3-2-1</h3>
+        <p class="tab-desc">Teknik grounding untuk membawamu kembali ke saat ini. Centang satu per satu.</p>
+        <div class="grounding-steps">
+          <div class="ground-group" data-group="5">
+            <div class="ground-header"><span class="ground-emoji">👁</span><strong>5 hal yang bisa kamu <em>lihat</em></strong></div>
+            <div class="ground-items" id="ground-5"></div>
+          </div>
+          <div class="ground-group" data-group="4">
+            <div class="ground-header"><span class="ground-emoji">✋</span><strong>4 hal yang bisa kamu <em>sentuh</em></strong></div>
+            <div class="ground-items" id="ground-4"></div>
+          </div>
+          <div class="ground-group" data-group="3">
+            <div class="ground-header"><span class="ground-emoji">👂</span><strong>3 hal yang bisa kamu <em>dengar</em></strong></div>
+            <div class="ground-items" id="ground-3"></div>
+          </div>
+          <div class="ground-group" data-group="2">
+            <div class="ground-header"><span class="ground-emoji">👃</span><strong>2 hal yang bisa kamu <em>cium</em></strong></div>
+            <div class="ground-items" id="ground-2"></div>
+          </div>
+          <div class="ground-group" data-group="1">
+            <div class="ground-header"><span class="ground-emoji">👅</span><strong>1 hal yang bisa kamu <em>rasakan</em></strong></div>
+            <div class="ground-items" id="ground-1"></div>
+          </div>
+        </div>
+        <div class="grounding-complete" id="grounding-complete" style="display:none">
+          <div class="complete-icon">🌟</div>
+          <p>Kamu melakukannya dengan baik! Pelan-pelan kamu kembali ke sini.</p>
+          <button class="btn-outline" id="ground-reset">Ulangi</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="tab-content" id="tab-contacts">
+      <div class="contacts-container">
+        <div class="contact-urgent">
+          <div class="contact-badge">DARURAT</div>
+          <h3>Butuh bantuan segera?</h3>
+          <p>Hubungi layanan darurat sekarang. Mereka siap membantumu.</p>
+          <a class="btn-call btn-red" href="tel:119">📞 119 — Hotline Darurat</a>
+          <a class="btn-call btn-blue" href="tel:1500454">💙 1500-454 — Into The Light</a>
+          <a class="btn-call btn-green" href="tel:02129675000">🌿 021-2967-5000 — Yayasan Pulih</a>
+        </div>
+        <div class="contact-divider">atau</div>
+        <div class="contact-chat">
+          <h4>Curhat sebentar</h4>
+          <p>Kalau belum siap bicara, kamu bisa tulis dulu di sini. Tidak ada yang membaca — hanya untuk kamu.</p>
+          <div class="chat-box">
+            <div class="chat-messages" id="chat-messages">
+              <div class="chat-bubble bot">Hai 👋 Aku di sini. Apa yang sedang kamu rasakan?</div>
+            </div>
+            <div class="chat-input-row">
+              <input type="text" id="chat-input" placeholder="Ketik apa yang kamu rasakan..." />
+              <button class="chat-send" id="chat-send">→</button>
+            </div>
+          </div>
+        </div>
+        <div class="contact-trusted">
+          <h4>💛 Hubungi orang yang kamu percaya</h4>
+          <p>Terkadang hanya perlu satu orang yang mendengarkan. Beranikan dirimu menghubungi mereka.</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="tab-content" id="tab-safemode">
+      <div class="safemode-container">
+        <h3>Safe Mode</h3>
+        <p class="tab-desc">30 detik hanya untuk bernapas. Tidak ada yang lain.</p>
+        <button class="btn-primary btn-large" id="safemode-start">🛡 Masuk Safe Mode</button>
+      </div>
+    </div>
+  
+  </section>
+  
+  <section class="page" id="page-history">
+    <div class="history-header">
+      <h2>Riwayat Moodmu</h2>
+      <p>Melihat perjalananmu bisa membantu memahami diri sendiri lebih baik.</p>
+    </div>
+    <div class="history-chart-wrap">
+      <canvas id="mood-chart" height="120"></canvas>
+    </div>
+    <div class="history-list" id="history-list"></div>
+    <div class="history-insight" id="history-insight"></div>
+    <button class="btn-ghost btn-danger" id="btn-clear-history">Hapus Riwayat</button>
+  </section>
+  
+  <div class="safemode-overlay" id="safemode-overlay">
+    <div class="safemode-content">
+      <div class="safemode-circle" id="safemode-circle">
+        <span id="safemode-timer">30</span>
+      </div>
+      <p id="safemode-text">Tarik napas perlahan...</p>
+      <div class="safemode-progress">
+        <div class="safemode-bar" id="safemode-bar"></div>
+      </div>
+      <button class="btn-ghost" id="safemode-exit">Keluar</button>
+    </div>
+  </div>
+  
+  <div class="emergency-prompt" id="emergency-prompt" style="display:none">
+    <div class="ep-content">
+      <span class="ep-emoji">💙</span>
+      <p>Sepertinya kamu sedang berat. Butuh bantuan sekarang?</p>
+      <div class="ep-actions">
+        <a class="btn-call btn-red" href="tel:119">Hubungi 119</a>
+        <button class="btn-ghost" id="ep-dismiss">Tidak, terima kasih</button>
+      </div>
+    </div>
+  </div>
+  
+  <section class="page" id="page-about">
+    <div class="about-header">
+      <span class="about-eyebrow">👋 Hei, kenalan dulu yuk!</span>
+      <h2 class="about-title">Tentang Kami</h2>
+      <p class="about-subtitle">Kelompok <em>Hangker</em></p>
+    </div>
+    <div class="about-desc-wrap">
+      <div class="about-desc-card">
+        <div class="about-quote-mark">"</div>
+        <p class="about-desc">
+          Kami adalah kelompok kecil yang percaya bahwa kesehatan mental itu penting —
+          bukan sesuatu yang harus disembunyikan atau dianggap sepele. Berawal dari
+          keresahan bersama tentang betapa sulitnya mencari ruang aman di saat-saat
+          paling berat, kami memutuskan untuk membuat sesuatu.
+        </p>
+        <p class="about-desc">
+          <strong>Tenang</strong> lahir dari keinginan sederhana: hadir untuk siapa pun
+          yang sedang berjuang, bahkan di tengah malam, bahkan saat tidak tahu harus
+          mulai dari mana. Kami bukan terapis, tapi kami peduli — dan itu sudah cukup
+          untuk memulai.
+        </p>
+        <div class="about-tag-row">
+          <span class="about-tag">💚 Peduli</span>
+          <span class="about-tag">🤝 Suportif</span>
+          <span class="about-tag">🛡 Aman</span>
+          <span class="about-tag">🌱 Tumbuh Bersama</span>
+        </div>
+      </div>
+    </div>
+    <div class="team-section">
+      <h3 id="typing-text" class="team-title typing-cursor"></h3>
+      <p class="team-sub">Tiga orang, satu tujuan — membuat kamu merasa tidak sendirian.</p>
+      <div class="team-grid">
+        <div class="member-card">
+          <div class="member-avatar-wrap">
+            <img class="member-avatar" src="Kevin.jpeg" alt="Avatar Kevin" />
+            <div class="member-avatar-ring"></div>
+          </div>
+          <div class="member-info">
+            <h4 class="member-name">Kevin Ridwan Simanjuntak</h4>
+            <span class="member-role">Frontend Developer</span>
+            <p class="member-desc">"Suka bikin tampilan yang simpel tapi nyaman dipakai — dan semoga kamu nyaman juga di sini."</p>
+          </div>
+          <div class="member-deco"></div>
+          <div class="member-medsos">
+            <div class="member-wa"><i class="bi bi-whatsapp"></i><a href="https://wa.me/qr/XNDP7ZATSSY5C1" target="_blank"> (+62) 857-6304-0246</a></div>
+            <div class="member-ig"><i class="bi bi-instagram"></i><a href="https://www.instagram.com/kvinn.o_o?igsh=MW81bHpsb2J4N2I1cg==" target="_blank"> kvinn.o_o</a></div>
+            <div class="member-github"><i class="bi bi-github"></i><a href="https://github.com/KevinArcharios" target="_blank"> KevinArcharios</a></div>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar-wrap">
+            <img class="member-avatar" src="Willi.jpeg" alt="Avatar Willi" />
+            <div class="member-avatar-ring"></div>
+          </div>
+          <div class="member-info">
+            <h4 class="member-name">Willi iskandar Situmeang</h4>
+            <span class="member-role">UI/UX Designer</span>
+            <p class="member-desc">"Percaya bahwa desain yang baik bisa bikin seseorang merasa lebih tenang hanya dengan melihatnya."</p>
+          </div>
+          <div class="member-deco"></div>
+          <div class="member-medsos">
+            <div class="member-wa"><i class="bi bi-whatsapp"></i><a href="https://wa.me/qr/YUCI3DQU6Y5OI1" target="_blank"> (+62) 822-7415-0460</a></div>
+            <div class="member-ig"><i class="bi bi-instagram"></i><a href="https://www.instagram.com/willylskndr?igsh=bnRxbTllYm9pODk0" target="_blank"> willylskndr</a></div>
+            <div class="member-github"><i class="bi bi-github"></i><a href="https://github.com/Willy-Dc" target="_blank"> Willy-Dc</a></div>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar-wrap">
+            <img class="member-avatar" src="daffa.jpeg" alt="Avatar Daffa" />
+            <div class="member-avatar-ring"></div>
+          </div>
+          <div class="member-info">
+            <h4 class="member-name">Daffa Satya <br>Irwansyah</h4>
+            <span class="member-role">Researcher & Content</span>
+            <p class="member-desc">"Suka menggali topik kesehatan mental supaya konten yang kami buat benar-benar terasa berarti."</p>
+          </div>
+          <div class="member-deco"></div>
+          <div class="member-medsos">
+            <div class="member-wa"><i class="bi bi-whatsapp"></i><a href="https://wa.me/message/ZR6EDC3ZNOXFE1" target="_blank"> (+62) 882-0160-97814</a></div>
+            <div class="member-ig"><i class="bi bi-instagram"></i><a href="https://www.instagram.com/_dffastyaa_?utm_source=qr&igsh=MWdocnU1cjZ0cTRnbQ==" target="_blank"> _dffastyaa_</a></div>
+            <div class="member-github"><i class="bi bi-github"></i><a href="https://github.com/davasatya2006" target="_blank"> davasatya2006</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-closing">
+      <div class="about-closing-card">
+        <span class="about-closing-emoji">🌿</span>
+        <h4>Pesan dari Kami</h4>
+        <p>
+          Kalau kamu sampai di sini, artinya kamu sudah melakukan hal yang luar biasa —
+          mencari bantuan dan memberi dirimu sendiri kesempatan untuk merasa lebih baik.
+          Itu bukan hal kecil. Itu berani.
+        </p>
+        <p>Kami bangga dengan kamu.</p>
+      </div>
+    </div>
+  </section>
+  
+  <div class="toast-container" id="toast-container"></div>
+  <button class="back-to-top" id="back-to-top" title="Kembali ke atas">↑</button>
+  
+  <script src="script.js"></script>
+</body>
+</html>
